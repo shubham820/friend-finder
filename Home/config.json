@@ -1,0 +1,17 @@
+{
+  
+  "some_importent_data" :{
+    "profilefname":"prfl.fname",
+    "profilelname":"prfl.lname",
+    "profile_img" : "prfl.profile_image",
+    "success":"scc",
+    "logout" : "logout",
+    "welcom" : "Welcome",
+    "following" : "following",
+    "on_login" : "login_page",
+    "login_menu" : "menubar",
+    "email" : "pythongarg@gmail.com",
+    "password" : "python@123"
+      }
+
+}

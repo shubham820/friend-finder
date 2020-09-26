@@ -1,0 +1,25 @@
+{% extends 'home/base.html' %}
+{% block body %}
+<div class="container">
+{% for i  in notification %}
+<div class="card mb-3 " style="max-width: 540px;">
+  <div class="row no-gutters">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+      <h5 class="card-title">{{i.from_user|capfirst}} {{i.from_user.lname}}</h5>
+       <img class="pt-3" src="/media/{{i.from_user.profile_image}}" height="100px" width="100px">
+        <p class="card-text">
+        Recieved a friend request from 
+        <b>{{i.from_user|capfirst}}</b> 
+        </p>
+        <a name="" id="" class="btn btn-primary" href="/profile/accept_request/{{i.from_user.profile_id}}" role="button">Confirm</a>&nbsp;
+        <a name="" id="" class="btn btn-primary" href="/profile/delete_request/{{i.from_user.profile_id}}" role="button">Cancel</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+</div>
+{% endblock body %}

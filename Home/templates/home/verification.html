@@ -1,0 +1,35 @@
+{% extends 'home/base.html' %}
+{% block body %}
+<style>
+ #verf,.user_name
+ {
+  color : black;
+ }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-sm-6">
+        <!-- {% if forgot_password %}
+            <h1> Pease enter your email address</h1>
+           <form action = "{% url 'signup' %}" method ='POST'>
+           {% csrf_token %} 
+           <fieldset class="form-group">
+			<input type="email" class="form-contname="email" required id="example-emplaceholder="Enter email">
+		    </fieldset>
+            <button type="submit" class=" btn btn-secondary">Sigbutton>
+            </form>
+            {% else %} -->
+            <h1>Authentication</h1>
+            <h3><strong class="user_name">Hello {{usernam}}</strong></h3>
+            <p>We've added your email to your account,
+            as you asked. Your phone number will be used if you forgot
+            your password and for important account message. Your phone
+            number must be verified.</p>
+            <a href="https://accounts.google.com/ServiceLogin/identifier?service=mail&passive=true&rm=false&continue=https%3A%2F%2Fmail.google.com%2Fmail%2F&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1&flowName=GlifWebSignIn&flowEntry=AddSession&TL=AM3QAYYMmEcbkWZ7RpQXpu7kt3FDThICJpko0cvbSJ7CLERDO22lZeHNJ3vs4Mnl">
+            <button class="btn btn-primary " id = verf>Please verify your email</button>
+            </a>
+            <!-- {% endif %} -->
+            </div>
+        </div>
+    </div>
+{% endblock body %}

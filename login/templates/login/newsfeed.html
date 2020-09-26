@@ -1,0 +1,153 @@
+{% extends "login/base1.html" %}
+{% load static %}
+{% load humanize %}
+{% block body %}
+<style>
+    .btn-primary {
+        margin-top: 4px;
+    }
+
+    .post-content .post-container .post-detail .post-comment {
+        display: block;
+        margin: 10px auto;
+        width: 100%;
+    }
+
+    .reply {
+        margin-left: 30px !important;
+    }
+
+    .post-content img.post-image,
+    video.post-video,
+    .google-maps {
+        width: 552%;
+        height: 507px;
+    }
+</style>
+
+<!-- ******* all post fetching Here ******** -->
+{% for i in sesion reversed %}
+<img src="/media/{{profilefname.profile_image}}" alt="user" class="profile-photo-md pull-left" />
+<div class="user-info">
+    <h5><a href="{% url 'login' %}" class="profile-link">{{profilefname|capfirst}}
+            &nbsp;{{profilefname.lname}}</a> <span class="following">following</span></h5>
+    <p class="text-muted">Published on {{i.pub_date}}</p>
+</div>
+<div class="post-content">
+    <div class="post-detail">
+        {% if i.post_img %}
+        <img src="{{i.post_img.url}}" alt="post-image" class="img-responsive post-image post " />
+        {% endif %}
+
+        <!-- ********** post Like *********  -->
+        <div class="post-container">
+            <div class="reaction">
+                <a class="btn text-green" onclick="postLikeorNot({{i.sno}})">
+                    <i class="fa fa-thumbs-up"></i>
+                    <b id="likes{{i.sno}}">{{i.likes.count}}</b>
+                </a>
+                <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+            </div>
+            <div class="line-divider"></div>
+            <div class="post-text">
+                {% if i.status %}
+                <p>{{i.status}}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i
+                        class="em em-anguished"></i></p>
+                {% else %}<b>{{profilefname|capfirst}}&nbsp;{{profilefname.lname}}</b>
+                {% endif %}
+            </div>
+            <div class="line-divider"></div>
+
+             <!-- ******* postLikeorNot part end here  ******  -->
+            <a data-toggle="collapse" href="#allcomment{{i.sno}}" role="button" aria-expanded="false"
+                aria-controls="collapseExample">
+                <b>view all comments</b> &nbsp;({{comment.count}})
+            </a>
+             <!-- ************ view all comment part ************* -->
+            <div class=" collapse" id="allcomment{{i.sno}}">
+                <div class="card card-body ">
+                    {% for cmt in comment reversed %}
+                    {% if cmt.comment_id == i.sno %}
+                    <div class="post-comment">
+                        <img src="{{cmt.user.profile_image.url}}" alt="" class="profile-photo-sm" />
+                        <p><a href="timeline.html" class="profile-link">{{cmt.user|capfirst}}
+                                &nbsp;{{cmt.user.lname}}</a>&nbsp;
+                            <b> <span class="badge badge-dark">{{cmt.timestamp|naturaltime}}</span> </b><i
+                                class="em em-laughing"></i> <br>{{cmt.comment}}
+                            <br>
+                            <a class="btn text-green" onclick="postLikeorNot({{cmt.sno}})">
+                                <i class="fa fa-thumbs-up"></i> <b id="likes{{cmt.sno}}">{{cmt.likes.count}}</b>
+                            </a>
+                            <b> <a  data-toggle="collapse" href="#{{cmt.sno}}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Reply
+                              </a></b>
+                            <br>
+                            <!-- ********* Reply loop ********** -->
+                            {% for replys in reply  %}
+                            {% if reply.reply_of_comnt != "" and replys.comment_id == cmt.sno %}
+                        <div class="post-comment reply">
+                            <img src="/media/profile/img/sam-moqadam-JvgB-pLHZ0I-unsplash.jpg" alt=""
+                                class="profile-photo-sm">
+                            <p><a href="timeline.html" class="profile-link">Ankit
+                                    &nbsp;singla</a>&nbsp;
+                                <b> <span class="badge badge-dark">26&nbsp;minutes ago</span> </b><i
+                                    class="em em-laughing"></i> <br>{{replys.comment}}
+                                <br>
+                                <a data-toggle="collapse" role="button" aria-expanded="false"
+                                    aria-controls="collapseExample">
+                                    <b> </b></a>
+
+                            <div class="reaction">
+                                <a class="btn text-green" onclick="postLikeorNot({{replys.sno}})">
+                                    <i class="fa fa-thumbs-up"></i>
+                                    <b id="likes{{replys.sno}}">{{replys.likes.count}}</b>
+                                </a>
+                                <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                            </div>
+
+
+                            </p>
+                            <p></p>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+
+                        <div class=" collapse" id="{{cmt.sno}}">
+                            <form method="post" action="/profile/Post_comment/">
+                                {% csrf_token %}
+                                <input type="text" name="comment" class="form-control" required
+                                    placeholder="Post a comment">
+                                <input type="hidden" name="replySno" class="form-control" value="{{cmt.sno}}">
+                                <input type="hidden" name="commentSno" class="form-control" value="{{i.sno}}">
+                                <button type="submit"   class="btn btn-primary">Comment</button>
+                            </form>
+                        </div>
+                        </p>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- ************ view all comment part  end *************  -->
+           <!-- comment here  -->
+            <form method="post" action="/profile/Post_comment/">
+                {% csrf_token %}
+                <input type="text" name="comment" class="form-control" required placeholder="Post a comment">
+                <input type="hidden" name="commentSno" class="form-control" value="{{i.sno}}">
+                <input type="hidden" name="replySno" class="form-control" value="">
+                <button type="submit" onclick ="PostComment({{i.sno}})" class="btn  btn-primary">Comment</button>
+                
+            </form>
+            
+             <!--  comment end here -->
+        </div>
+    </div>
+</div>
+
+{% endfor  %}
+
+{% endblock %}
+{% block script %}
+{% endblock script %}
+
+

@@ -1,0 +1,124 @@
+{% extends 'home/base.html' %} {% block title %}Loginpage{% endblock %}
+{% load static %}
+<style>
+  {% block style %}
+
+  body {
+    min-height: 100vh;
+    background-image: linear-gradient(120deg, #3498db, #8e44ad);
+  }
+
+  .message {
+    list-style-type: none;
+  }
+
+  .box {
+    width: 385px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #191919;
+    text-align: center;
+    border-radius: 10px;
+  }
+
+  .box h1 {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .box input[type="text"],
+  .box input[type="password"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #3498db;
+    padding: 14px 10px;
+    width: 200px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+  }
+
+  .box input[type="text"]:focus,
+  .box input[type="password"]:focus {
+    width: 280px;
+    border-color: #2ecc71;
+  }
+
+  .box input[type="submit"] {
+    border: 0;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #2ecc71;
+    padding: 14px 40px;
+    outline: none;
+    color: white;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+
+  .box input[type="submit"]:hover {
+    background: #2ecc71;
+  }
+
+  .alert-color {
+    background-color: #da2c1ac7;
+    color: black;
+  }
+
+    {% endblock %}
+</style>
+
+{% block body %}
+{% if signup %}
+<div class="alert alert-info" role="alert">
+  <strong>{{signup}}.
+  </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{% endif%}
+{% if error %}
+<div class="alert alert-color" role="alert">
+  <strong>you entered wrong credential, You should check in those fields below.
+  </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{% endif%}
+{% if error1 %}
+<div class="alert alert-color" role="alert">
+  <strong>{{error1}}
+  </strong>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+{% endif%}
+<form class="box" action="/profile/" method="post">
+  {% csrf_token %}
+  <h1>Login</h1>
+  <input type="text" name="email" placeholder="Username" />
+  <input type="password" name="password" placeholder="Password" />
+  <input type="submit" name="" value="Login" />
+  {% if forgot %}
+  <a href="{% url 'forgot_view' %}">{{forgot}}</a>
+  {% endif %}
+</form>
+
+{% endblock body %}

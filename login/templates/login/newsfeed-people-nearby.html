@@ -1,0 +1,48 @@
+{% extends "login/base1.html" %}
+{% load static %}
+{% block body %}
+{% comment %}
+<!-- Nearby People List
+================================================= -->
+<div class="people-nearby">
+
+  <div class="nearby-user">
+
+    <div class="row">
+      <div class="col-md-2 col-sm-2">
+        <img src="{{i.profile_image.url}}" alt="user" class="profile-photo-lg" />
+      </div>
+      <div class="col-md-7 col-sm-7">
+        <h5><a href="#" class="profile-link">{{i.fname}}&nbsp;{{i.lname}}</a></h5>
+        <p>Software Engineer</p>
+        <p class="text-muted">500m away</p>
+      </div>
+      <div class="col-md-3 col-sm-3">
+        <a href="/profile/send_request/{{i.profile_id}}"><button class="btn btn-primary pull-right">Add Friend
+          </button></a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div> {% endcomment %}
+<div class="people-nearby">
+  <div class="row">
+    {% for i in nearby  %}
+    <div class="row">
+      <div class="col-md-2 col-sm-2">
+        <img src="{{i.profile_image.url}}" alt="user" class="profile-photo-lg" />
+      </div>
+      <div class="col-md-7 col-sm-7">
+        <h5><a href="#" class="profile-link">{{i.fname}}&nbsp;{{i.lname}}</a></h5>
+        <p>Software Engineer</p>
+        <p class="text-muted">500m away</p>
+      </div>
+      <div class="col-md-3 col-sm-3">
+        <a href="/profile/send_request/{{i.profile_id}}"><button class="btn btn-primary pull-right">Add Friend
+          </button></a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

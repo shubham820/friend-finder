@@ -1,0 +1,254 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block body %}
+
+<style>
+  .profile-photo {
+    width: 100%;
+  }
+
+  .timeline-cover {
+    background: url("{% static 'images/covers/1.jpg' %}") no-repeat;
+  }
+
+  /* .folow_section {
+    line_height: 30px;
+  } */
+
+  #form-control-post {
+    max-width: 270px;
+    max-height: 70px;
+    min-width: 270px;
+    min-height: 70px;
+  }
+</style>
+
+<div class="container">
+
+  <!-- Timeline
+      ================================================= -->
+  <div class="timeline">
+    <div class="timeline-cover">
+
+      <!--Timeline Menu for Large Screens-->
+      <div class="timeline-nav-bar hidden-sm hidden-xs">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="profile-info">
+              <img src="/media/{{friendname.profile_image}}" alt="" class="img-responsive profile-photo" />
+              <h3>{{friendname.fname|capfirst}} {{friendname.lname}}</h3>
+              <p class="text-muted">Creative Director</p>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <ul class="list-inline profile-menu">
+              <li><a href="timeline.html" class="active">Timeline</a></li>
+              <li><a href="timeline-about.html">About</a></li>
+              <li><a href="timeline-album.html">Album</a></li>
+              <li><a href="timeline-friends.html">Friends</a></li>
+            </ul>
+            <ul class="follow-me list-inline">
+              <li>1,299 people following her</li>
+              <li><a href="/profile/send_request/{{friendname.profile_id}}"><button class="btn-primary">Add
+                    Friend</button>
+                </a> </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--Timeline Menu for Large Screens End-->
+
+      <!--Timeline Menu for Small Screens-->
+      <div class="navbar-mobile hidden-lg hidden-md">
+        <div class="profile-info">
+          <img src="/media/{{friendname.profile_image}}" alt="" class="img-responsive profile-photo" />
+          <h4>{{friendname.fname|capfirst}} {{friendname.lname}}</h4>
+          <p class="text-muted">Creative Director</p>
+        </div>
+        <div class="mobile-menu">
+          <ul class="list-inline">
+            <li><a href="timline.html" class="active">Timeline</a></li>
+            <li><a href="timeline-about.html">About</a></li>
+            <li><a href="timeline-album.html">Album</a></li>
+            <li><a href="timeline-friends.html">Friends</a></li>
+          </ul>
+          <button class="btn-primary">Add Friend</button>
+        </div>
+      </div>
+      <!--Timeline Menu for Small Screens End-->
+
+    </div>
+    <div id="page-contents">
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-7">
+
+          <!-- Post Create Box
+              ================================================= -->
+          <div class="create-post">
+            <div class="row">
+              <div class="col-md-7 col-sm-7">
+                <div class="form-group">
+                  <img src="/media/{{friendname.profile_image}}" alt="" class="profile-photo-md" />
+                  <textarea name="texts" id="exampleTextarea" cols="30" rows="1" class="form-control"
+                    placeholder="Write what you wish"></textarea>
+                </div>
+              </div>
+              <div class="col-md-5 col-sm-5">
+                <div class="tools">
+                  <ul class="publishing-tools list-inline">
+                    <li><a href="#"><i class="ion-compose"></i></a></li>
+                    <li><a href="#"><i class="ion-images"></i></a></li>
+                    <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                    <li><a href="#"><i class="ion-map"></i></a></li>
+                  </ul>
+                  <button class="btn btn-primary pull-right">Publish</button>
+                </div>
+              </div>
+            </div>
+          </div><!-- Post Create Box End-->
+
+          <!-- Post Content
+              ================================================= -->
+          {% for i in another_sesion reversed %}
+          <div class="post-content">
+
+            <!--Post Date-->
+            <div class="post-date hidden-xs hidden-sm">
+              <h5>{{friendname.fname|capfirst}} &nbsp;{{friendname.lname}}</h5>
+              <p class="text-grey">{{i.pub_date}}</p>
+            </div>
+            <!--Post Date End-->
+            {% if i.post_img %}
+            <img src="/media/{{i.post_img}}" alt="post-image" class="img-responsive post-image" />{% endif %}
+            <div class="post-container">
+              <img src="/media/{{friendname.profile_image}}" alt="user" class="profile-photo-md pull-left" />
+              <div class="post-detail">
+                <div class="user-info">
+                  <h5><a href="#" class="profile-link">{{friendnameS.fname}} &nbsp;{{friendname.lname}}</a> <span
+                      class="following">following</span></h5>
+                  <p class="text-muted">{{i.pub_date}}</p>
+                </div>
+                <div class="reaction">
+                  <a class="btn text-green" onclick="postLikeorNot({{i.sno}})">
+                    <i class="fa fa-thumbs-up"></i>
+                    <b id="likes{{i.sno}}">{{i.likes.count}}</b>
+                  </a>
+                  <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                </div>
+                <div class="line-divider"></div>
+                <div class="post-text">
+                  <p>{{i.status}}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i
+                      class="em em-anguished"></i></p>
+                </div>
+                <div class="line-divider"></div>
+                {% for cmt in comment reversed %}
+                {% if cmt.comment_id == i.id %}
+                <div class="post-comment">
+                  <img src="{{cmt.user.profile_image.url}}" alt="" class="profile-photo-sm" />
+                  <p><a href="timeline.html" class="profile-link">{{cmt.user}}</a>{{cmt.timestamp}}<i
+                      class="em em-laughing"></i> <br>{{cmt.comment}}
+                  </p>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                <div class="post-comment">
+                  <form method="post" action=/profile/Post_comment/{{i.id}}>
+                    {% csrf_token %}
+                    <input type="text" name="comment" class="form-control" required placeholder="Post a comment">
+                    <button type="submit" class="btn btn-primary">Comment</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+
+
+        </div>
+        <div class="col-md-2 static">
+          <div id="sticky-sidebar">
+            <h4 class="grey">{{friendname.fname}}'s activity</h4>
+
+            {% for j in another_sesion  %}
+            <div class="feed-item">
+              <div class="live-activity">
+                <p><a href="#" class="profile-link">Sarah</a> Commended on a Photo</p>
+                <p class="text-muted">5 mins ago</p>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer
+    ================================================= -->
+<footer id="footer">
+  <div class="container">
+    <div class="row">
+      <div class="footer-wrapper">
+        <div class="col-md-3 col-sm-3">
+          <a href=""><img src="images/logo-black.png" alt="" class="footer-logo" /></a>
+          <ul class="list-inline social-icons">
+            <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+            <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+            <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+            <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+            <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <h6>For individuals</h6>
+          <ul class="footer-links">
+            <li><a href="">Signup</a></li>
+            <li><a href="">login</a></li>
+            <li><a href="">Explore</a></li>
+            <li><a href="">Finder app</a></li>
+            <li><a href="">Features</a></li>
+            <li><a href="">Language settings</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <h6>For businesses</h6>
+          <ul class="footer-links">
+            <li><a href="">Business signup</a></li>
+            <li><a href="">Business login</a></li>
+            <li><a href="">Benefits</a></li>
+            <li><a href="">Resources</a></li>
+            <li><a href="">Advertise</a></li>
+            <li><a href="">Setup</a></li>
+          </ul>
+        </div>
+        <div class="col-md-2 col-sm-2">
+          <h6>About</h6>
+          <ul class="footer-links">
+            <li><a href="">About us</a></li>
+            <li><a href="">Contact us</a></li>
+            <li><a href="">Privacy Policy</a></li>
+            <li><a href="">Terms</a></li>
+            <li><a href="">Help</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3 col-sm-3">
+          <h6>Contact Us</h6>
+          <ul class="contact">
+            <li><i class="icon ion-ios-telephone-outline"></i>+1 (234) 222 0754</li>
+            <li><i class="icon ion-ios-email-outline"></i>info@thunder-team.com</li>
+            <li><i class="icon ion-ios-location-outline"></i>228 Park Ave S NY, USA</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <p>Thunder Team © 2016. All rights reserved</p>
+  </div>
+</footer>
+
+{% endblock %}

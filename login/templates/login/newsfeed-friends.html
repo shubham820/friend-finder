@@ -1,0 +1,23 @@
+{% extends "login/base1.html" %}
+{% load static %}
+{% block body %}
+<div class="friend-list">
+  <div class="row">
+    {% for friend in friends  %}
+    <div class="col-md-6 col-sm-6">
+      <div class="friend-card">
+        <img src="/media/{{friend.profile_image}}" alt="profile-cover" class="img-responsive cover" />
+        <div class="card-info">
+          <img src="/media/{{friend.profile_image}}" alt="user" class="profile-photo-lg" />
+          <div class="friend-info">
+            <a href="#" class="pull-right text-green">My Friend</a>
+            <h5><a href="/profile/anothers_timeline/{{friend.profile_id}}" class="profile-link">{{friend.fname}} {{friend.lname}}</a></h5>
+            <p>Student at Harvard</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
