@@ -27,12 +27,13 @@
             </div>
           </a>
         </li>
+        {% for chatlist  in friends %}
         <li>
-          <a href="#contact-2" data-toggle="tab">
+          <a href="#{{chatlist.profile_id}}" data-toggle="tab">
             <div class="contact">
-              <img src="images/users/user-10.jpg" alt="" class="profile-photo-sm pull-left" />
+              <img src="{{chatlist.profile_image.url}}" alt="" class="profile-photo-sm pull-left" />
               <div class="msg-preview">
-                <h6>Julia Cox</h6>
+                <h6>{{chatlist.fname|capfirst}}&nbsp; {{chatlist.lname}}</h6>
                 <p class="text-muted">see you soon</p>
                 <small class="text-muted">an hour ago</small>
                 <div class="seen"><i class="icon ion-checkmark-round"></i></div>
@@ -40,58 +41,8 @@
             </div>
           </a>
         </li>
-        <li>
-          <a href="#contact-3" data-toggle="tab">
-            <div class="contact">
-              <img src="images/users/user-3.jpg" alt="" class="profile-photo-sm pull-left" />
-              <div class="msg-preview">
-                <h6>Sophia Lee</h6>
-                <p class="text-muted">Okay fine. thank you</p>
-                <small class="text-muted">13 hour ago</small>
-                <div class="replied"><i class="icon ion-reply"></i></div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#contact-4" data-toggle="tab">
-            <div class="contact">
-              <img src="images/users/user-4.jpg" alt="" class="profile-photo-sm pull-left" />
-              <div class="msg-preview">
-                <h6>John Doe</h6>
-                <p class="text-muted">hey anybody there</p>
-                <small class="text-muted">Yesterday</small>
-                <div class="chat-alert">1</div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#contact-5" data-toggle="tab">
-            <div class="contact">
-              <img src="images/users/user-9.jpg" alt="" class="profile-photo-sm pull-left" />
-              <div class="msg-preview">
-                <h6>Anna Young</h6>
-                <p class="text-muted">I gotta go</p>
-                <small class="text-muted">2 days ago</small>
-                <div class="seen"><i class="icon ion-checkmark-round"></i></div>
-              </div>
-            </div>
-          </a>
-        </li>
-        <li>
-          <a href="#contact-6" data-toggle="tab">
-            <div class="contact">
-              <img src="images/users/user-8.jpg" alt="" class="profile-photo-sm pull-left" />
-              <div class="msg-preview">
-                <h6>Richard Bell</h6>
-                <p class="text-muted">Hey there?</p>
-                <small class="text-muted">2 days ago</small>
-                <div class="chat-alert">1</div>
-              </div>
-            </div>
-          </a>
-        </li>
+        {% endfor %}
+        
       </ul>
       <!--Contact List in Left End-->
 

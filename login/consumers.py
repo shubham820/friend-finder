@@ -2,7 +2,6 @@
 from channels.generic.websocket import AsyncWebsocketConsumer
 import json
 
-
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         user_id = self.scope["session"]["_auth_user_id"]
@@ -39,7 +38,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def recieve_group_message(self, event):
         message = event['message']
-
+          
         # Send message to WebSocket
         await self.send(
              text_data=json.dumps({

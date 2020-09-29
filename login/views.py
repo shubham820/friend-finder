@@ -227,7 +227,7 @@ def messages(request):
             'welcom': wish,
             'on_login': params['on_login'],
             'login_menu': params['login_menu'],
-            'friends':profiles,
+            'friends': profiles,
             'profilefname': vars,
             'sesion': var,
         }

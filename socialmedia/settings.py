@@ -29,7 +29,7 @@ SECRET_KEY = 'b9al-lqj7uu^4r*($1!8(l-i4hwr31j6db9tf=3_5ccn(bduq0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.staticfiles',
     'Home.apps.HomeConfig',
-    'login.apps.LoginConfig',
+    'login',
     # 3rd party
     'channels',
 
@@ -88,14 +88,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-    #    'default': {
-    #     'ENGINE': 'django.db.backends.mysql',
-    #     'NAME': 'forignkey',
-    #     'HOST': '127.0.0.1',
-    #     'PORT': '3306',
-    #     'USER':'root',
-    #     'PASSWORD' : '#shu#bha#m@123'
-    # }
+   
 }
 
 
@@ -117,25 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_PERMISSION_CLASSES': [
-#         'rest_framework.permissions.IsAuthenticated'
-#     ],
-#     'DEFAULT_PAGINATION_CLASS':
-#         'rest_framework.pagination.LimitOffsetPagination',
-#     'PAGE_SIZE': 100
-# }
-# MESSAGES_TO_LOAD = 15
 
-
-
-# # In settings.py
-# CHANNEL_LAYERS = {
-#     "default": {
-#         "BACKEND": "asgiref.inmemory.ChannelLayer",
-#         "ROUTING": "core.routing.channel_routing",
-#     },
-# }
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -170,17 +145,3 @@ EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = '/media/'
 
-
-# Import local_settings.py
-try:
-    from local_settings import *
-except ImportError:
-    pass
-
-
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-
-}

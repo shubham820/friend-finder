@@ -33,6 +33,8 @@ class Post(models.Model):
 
     def __str__(self):
         return str(self.id_profile)
+
+
 class FriendRequest(models.Model):
     to_user = models.ForeignKey('Profile', related_name='to_user', on_delete=models.CASCADE)
     from_user = models.ForeignKey('Profile', related_name='from_user', on_delete=models.CASCADE)
@@ -63,10 +65,11 @@ class MessageModel(models.Model):
     the message body.
 
     """
+    
     user = ForeignKey(Profile, on_delete=CASCADE, verbose_name='user',
-                      related_name='from_user', db_index=True)
+                      related_name='f_user', db_index=True)
     recipient = ForeignKey(Profile, on_delete=CASCADE, verbose_name='recipient',
-                           related_name='to_user', db_index=True)
+                           related_name='t_user', db_index=True)
     timestamp = DateTimeField('timestamp', auto_now_add=True, editable=False,
                               db_index=True)
     body = TextField('body')
@@ -87,22 +90,24 @@ class MessageModel(models.Model):
         """
         notification = {
             'type': 'recieve_group_message',
-            'message': '{}'.format(self.id)
+            'message': f'{self.id}'
         }
 
         channel_layer = get_channel_layer()
-        print("user.id {}".format(self.user.id))
-        print("user.id {}".format(self.recipient.id))
+        print(f"user.id , {self.user.id}")
+        print(f"user.id {self.recipient.id}")
 
-        async_to_sync(channel_layer.group_send)("{}".format(self.user.id), notification)
-        async_to_sync(channel_layer.group_send)("{}".format(self.recipient.id), notification)
+        async_to_sync(channel_layer.group_send)(f"{self.user.id}", notification)
+        async_to_sync(channel_layer.group_send)(f"{self.recipient.id}", notification)
 
-    def save(self, *args, **kwargs):
+    def save1(self, *args, **kwargs):
+        pass
+        new = self.id
         """
         Trims white spaces, saves the message and notifies the recipient via WS
         if the message is new.
         """
-        new = self.id
+        
         self.body = self.body.strip()  # Trimming whitespaces from the body
         super(MessageModel, self).save(*args, **kwargs)
         if new is None:
@@ -110,7 +115,7 @@ class MessageModel(models.Model):
 
     # Meta
     class Meta:
-        app_label = 'core'
+        app_label = 'login'
         verbose_name = 'message'
         verbose_name_plural = 'messages'
         ordering = ('-timestamp',)
